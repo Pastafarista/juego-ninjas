@@ -1,6 +1,4 @@
-import pygame
 from entidad import Entidad
-from animacion import Animacion
 
 class Entidad_con_sprite(Entidad):
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad):
@@ -8,8 +6,8 @@ class Entidad_con_sprite(Entidad):
         self.animacion_actual = ""     
         self.animaciones = {}     
         
-    def agregar_animacion(self, nombre, imagenes):
-        self.animaciones[nombre] = Animacion(imagenes)
+    def agregar_animacion(self, nombre, animacion):
+        self.animaciones[nombre] = animacion
         
     def cambiar_animacion(self, nombre):
         self.animacion_actual = nombre
@@ -18,3 +16,6 @@ class Entidad_con_sprite(Entidad):
     def actualizar(self):
         super().actualizar()
         self.animaciones[self.animacion_actual].siguiente_frame()
+        
+    def obtener_frame_actual(self):
+        return self.animaciones[self.animacion_actual].obtener_frame_actual()

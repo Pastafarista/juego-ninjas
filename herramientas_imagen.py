@@ -3,7 +3,7 @@ import pygame
 def cargar_imagen(ruta):
     return pygame.image.load(ruta).convert_alpha()
 
-def cargar_imagenes(ruta_spritesheet):
+def cargar_spritesheet_por_columnas(ruta_spritesheet):
     # Cargar la imagen
     imagen = cargar_imagen(ruta_spritesheet)
     
@@ -15,11 +15,13 @@ def cargar_imagenes(ruta_spritesheet):
     
     # Recorrer la imagen
     for x in range(0, ancho, 16):
+        col = []
         for y in range(0, alto, 16):
             # Crear imagen
             cuadro = pygame.Surface((16, 16), pygame.SRCALPHA)
             cuadro.blit(imagen, (0, 0), (x, y, 16, 16))
-            imagenes.append(cuadro)
+            col.append(cuadro)
+        imagenes.append(col)
             
     # Devolver lista de imagenes
     return imagenes
