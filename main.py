@@ -4,7 +4,7 @@ from mundo import *
 import herramientas_imagen as hi
 from animacion import Animacion
 from controles import Controles
-from entidad_con_sprite import Entidad_con_sprite
+from jugador import Jugador
 import pygame
 
 #Iniciar pygame
@@ -22,17 +22,7 @@ controles = Controles()
 icono = pygame.image.load("res/Actor/Animals/Cat/Faceset.png").convert_alpha()
 pygame.display.set_icon(icono)
 
-personaje = Entidad_con_sprite(0, 0, 0, 0, 16, 16, 5)
-nombres = ["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"]
-indice = 0
-
-for columna in hi.cargar_spritesheet_por_columnas("res/Actor/Characters/Boy/SeparateAnim/Walk.png"):
-    animacion = Animacion(hi.redimensionar_imagenes(columna, 5))
-    personaje.agregar_animacion(nombres[indice], animacion)
-    indice += 1
-    
-boleano = False
-personaje.cambiar_animacion("andar_abajo")
+personaje = Jugador(controles)
 
 while True:
     for event in pygame.event.get():
@@ -53,13 +43,7 @@ while True:
     personaje.actualizar()
     
     pantalla.blit(personaje.obtener_frame_actual(), (0, 0))
-    animacion.siguiente_frame()
-    
-    if controles.obtener_tecla("w") and boleano == False:
-        personaje.cambiar_animacion("andar_arriba")
-        boleano = True
-    elif controles.obtener_tecla("w") == False:
-        boleano = False
+   
 
     pygame.display.update()
     reloj.tick(60)

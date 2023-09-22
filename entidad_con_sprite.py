@@ -10,8 +10,9 @@ class Entidad_con_sprite(Entidad):
         self.animaciones[nombre] = animacion
         
     def cambiar_animacion(self, nombre):
-        self.animacion_actual = nombre
-        self.animaciones[self.animacion_actual].reiniciar()
+        if nombre != self.animacion_actual:
+            self.animacion_actual = nombre
+            self.animaciones[self.animacion_actual].reiniciar()
         
     def actualizar(self):
         super().actualizar()
