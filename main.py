@@ -33,9 +33,6 @@ while True:
      #Limpiar la pantalla
     pantalla.fill((0, 0, 0))       
         
-    #Recibir input del usuario
-    controles.actualizar()
-        
     #Actualizar y dibujar el mundo
     mundo.actualizar()
     mundo.dibujar(pantalla)

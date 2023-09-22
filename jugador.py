@@ -6,7 +6,6 @@ class Jugador(Entidad_con_sprite):
     def __init__(self, controles):
         super().__init__(pos_x=0, pos_y=0, offset_x=0, offset_y=0, tam_x=16, tam_y=16, velocidad=2)
         self.controles = controles
-        self.teclas_cooldown = {"w":False,"a":False,"d":False,"s":False,"f":False,"r":False,"g":False}
         self.cargar_animaciones()
         
     def cargar_animaciones(self):
@@ -19,29 +18,20 @@ class Jugador(Entidad_con_sprite):
             indice += 1
             
         self.cambiar_animacion("andar_abajo")
-           
-    def obtener_tecla_cooldown(self, tecla):
-        if self.controles.obtener_tecla(tecla) and self.teclas_cooldown[tecla] == False:
-            self.cambiar_animacion("andar_arriba")
-            self.teclas_cooldown[tecla] = True
-            return True
-        elif self.controles.obtener_tecla(tecla) == False:
-            self.teclas_cooldown[tecla] = False
-            return False
             
     def actualizar(self):
         super().actualizar()
         
-        if self.obtener_tecla_cooldown("w"):
+        if self.controles.obtener_tecla_con_cooldown("w"):
             self.cambiar_animacion("andar_arriba")
             
-        if self.obtener_tecla_cooldown("a"):
+        if self.controles.obtener_tecla_con_cooldown("a"):
             self.cambiar_animacion("andar_izquierda")
             
-        if self.obtener_tecla_cooldown("s"):
+        if self.controles.obtener_tecla_con_cooldown("s"):
             self.cambiar_animacion("andar_abajo")
             
-        if self.obtener_tecla_cooldown("d"):
+        if self.controles.obtener_tecla_con_cooldown("d"):
             self.cambiar_animacion("andar_derecha")
         
             
