@@ -6,7 +6,7 @@ class Entidad_con_sprite(Entidad):
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad):
         super().__init__(pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad)
         self.animacion_actual = ""     
-        self.animaciones = {}
+        self.animaciones = {}     
         
     def agregar_animacion(self, nombre, imagenes):
         self.animaciones[nombre] = Animacion(imagenes)
