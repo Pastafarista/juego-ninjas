@@ -39,7 +39,7 @@ while True:
     
     personaje.actualizar()
     
-    pantalla.blit(personaje.obtener_frame_actual(), (0, 0))
+    pantalla.blit(personaje.obtener_frame_actual(), (personaje.posicion[0], personaje.posicion[1]))
    
 
     pygame.display.update()

@@ -1,4 +1,6 @@
 from entidad import Entidad
+from animacion import Animacion
+import herramientas_imagen as hi
 
 class Entidad_con_sprite(Entidad):
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad):
@@ -8,6 +10,14 @@ class Entidad_con_sprite(Entidad):
         
     def agregar_animacion(self, nombre, animacion):
         self.animaciones[nombre] = animacion
+        
+    def agregar_animaciones(self, nombres, ruta_spritesheet):
+        indice = 0
+
+        for imagenes in hi.cargar_spritesheet_por_columnas(ruta_spritesheet):
+            animacion = Animacion(hi.redimensionar_imagenes(imagenes, 5))
+            self.agregar_animacion(nombres[indice], animacion)
+            indice += 1
         
     def cambiar_animacion(self, nombre):
         if nombre != self.animacion_actual:
