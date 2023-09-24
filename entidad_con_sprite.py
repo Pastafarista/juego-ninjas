@@ -14,7 +14,7 @@ class Entidad_con_sprite(Entidad):
     def agregar_animaciones(self, nombres, ruta_spritesheet):
         indice = 0
 
-        for imagenes in hi.cargar_spritesheet_por_columnas(ruta_spritesheet):
+        for imagenes in hi.cargar_spritesheet_animacion_por_columnas(ruta_spritesheet):
             animacion = Animacion(hi.redimensionar_imagenes(imagenes, 5))
             self.agregar_animacion(nombres[indice], animacion)
             indice += 1

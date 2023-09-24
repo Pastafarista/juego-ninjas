@@ -1,8 +1,6 @@
 from sys import exit
 from ajustes import *
-from mundo import *
-import herramientas_imagen as hi
-from animacion import Animacion
+from mapa import Mapa
 from controles import Controles
 from jugador import Jugador
 import pygame
@@ -14,7 +12,8 @@ pygame.display.set_caption("Juego Ninjas")
 #Crear pantalla y mundo
 reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(RESOLUCION)
-mundo = Mundo()
+
+mapa = Mapa("mapas/mapa.json")
 
 controles = Controles()
 
@@ -32,15 +31,11 @@ while True:
                   
      #Limpiar la pantalla
     pantalla.fill((0, 0, 0))       
-        
-    #Actualizar y dibujar el mundo
-    mundo.actualizar()
-    mundo.dibujar(pantalla)
     
     personaje.actualizar()
     
+    mapa.dibujar(pantalla)
     pantalla.blit(personaje.obtener_frame_actual(), (personaje.posicion[0], personaje.posicion[1]))
-   
 
     pygame.display.update()
     reloj.tick(60)

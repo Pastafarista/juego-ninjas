@@ -1,26 +1,30 @@
 import json
 from tile import *
+import herramientas_imagen as hi
 
 class Mapa:
     def __init__(self, ruta_archivo_mapa):
         self.archivo = json.load(open(ruta_archivo_mapa))
         self.entidades = []
-        self.imagenes = {}
+        self.imagenes = []
         self.cargar()
 
     def cargar(self):
         self.alto = self.archivo["height"]
         self.largo = self.archivo["width"]
         
-        self.cargarTilesets()
-        self.cargarCapas()
+        self.obtener_nombre_tilesets()
+        self.cargar_imagenes_tilesets()
+        self.cargar_capas()
         
-    def cargarCapas(self):
-        self.tiles = []
+    def cargar_capas(self):
+        self.tiles_por_capas = []
         
         indice_capa = 0
         
         for capa in self.archivo["layers"]:
+            
+            self.tiles_por_capas.append([])
             
             if(capa.get("type") == "tilelayer"):
             
@@ -29,21 +33,21 @@ class Mapa:
                 fila = 0
                 columna = 0
                 
-                for numero in data:
-                    if numero != 0:
-                        self.tiles.append(Tile(fila, columna, numero, capa))
+                for tipo in data:
+                    if tipo != 0:
+                        self.tiles_por_capas[indice_capa].append(Tile(fila, columna, tipo - 1, capa))
                         
                     columna += 1 
-                    if fila >= self.largo - 1:
+                    if columna >= self.largo - 1:
                         columna = 0
                         fila += 1
                 
                 indice_capa += 1
             
-        self.numero_capas = capa
+        self.numero_capas = indice_capa
                 
-    def cargarTilesets(self):
-        self.tilesets = []
+    def obtener_nombre_tilesets(self):
+        self.nombre_tilesets = []
         
         lista_blanca = open("tilesets.txt", "r").read().replace(" ", "").split("\n")
         
@@ -51,7 +55,19 @@ class Mapa:
             tileset = tileset_json["source"].split("/")[-1].split(".")[0] + ".png"
             
             if(tileset in lista_blanca):
-                self.tilesets.append(tileset)
-
+                self.nombre_tilesets.append(tileset)
+                         
+    def cargar_imagenes_tilesets(self):
+        if len(self.nombre_tilesets) == 0:
+            print("No hay tilesets")
+            return
+        
+        for nombre_tileset in self.nombre_tilesets:
+            self.imagenes += hi.cargar_spritesheet("res/Backgrounds/Tilesets/" + nombre_tileset)
             
-    
+        self.imagenes = hi.redimensionar_imagenes(self.imagenes, 5)
+                         
+    def dibujar(self, pantalla):
+        for capa in range(self.numero_capas):
+            for tile in self.tiles_por_capas[capa]:
+                pantalla.blit(self.imagenes[tile.tipo], (tile.columna * 16 * 5, tile.fila * 16 * 5))
