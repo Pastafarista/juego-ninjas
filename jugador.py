@@ -1,12 +1,14 @@
 from entidad_con_sprite import Entidad_con_sprite
 from animacion import Animacion
+from camara import Camara
 import herramientas_imagen as hi
 import numpy as np
 
 class Jugador(Entidad_con_sprite):
-    def __init__(self, controles):
-        super().__init__(pos_x=0, pos_y=0, offset_x=0, offset_y=0, tam_x=16, tam_y=16, velocidad=3)
+    def __init__(self, controles, mapa):
+        super().__init__(pos_x=0, pos_y=0, offset_x=0, offset_y=0, tam_x=16, tam_y=16, velocidad=2, mapa=mapa)
         self.controles = controles
+        self.camara = Camara(self)
         self.cargar_animaciones("BlueNinja")
           
     def cargar_animaciones(self, nombre_skin):
@@ -39,6 +41,9 @@ class Jugador(Entidad_con_sprite):
         #Cambiar la animación a idle si no se está moviendo   
         if self.direccion[0] == 0 and self.direccion[1] == 0:
             estado = "idle_" + estado.split("_")[1]
+            
+        #Actualizar la cámara
+        self.camara.actualizar()
         
         self.cambiar_animacion(estado)
         

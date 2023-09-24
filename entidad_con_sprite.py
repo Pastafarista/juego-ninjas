@@ -1,10 +1,11 @@
 from entidad import Entidad
 from animacion import Animacion
 import herramientas_imagen as hi
+from ajustes import *
 
 class Entidad_con_sprite(Entidad):
-    def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad):
-        super().__init__(pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad)
+    def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa):
+        super().__init__(pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa)
         self.animacion_actual = ""     
         self.animaciones = {}     
         
@@ -15,7 +16,7 @@ class Entidad_con_sprite(Entidad):
         indice = 0
 
         for imagenes in hi.cargar_spritesheet_animacion_por_columnas(ruta_spritesheet):
-            animacion = Animacion(hi.redimensionar_imagenes(imagenes, 5))
+            animacion = Animacion(hi.redimensionar_imagenes(imagenes, ESCALA_ZOOM))
             self.agregar_animacion(nombres[indice], animacion)
             indice += 1
         

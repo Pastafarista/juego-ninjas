@@ -1,4 +1,5 @@
 import pygame
+from ajustes import *
 
 def cargar_imagen(ruta):
     return pygame.image.load(ruta).convert_alpha()
@@ -37,15 +38,24 @@ def cargar_spritesheet(ruta_spritesheet):
     # Obtener dimensiones de la imagen
     ancho, alto = imagen.get_size()
     
+    print("Ancho: " + str(ancho))
+    print("Alto: " + str(alto))
+    
     # Recorrer la imagen
-    for y in range(0, alto, 16):
-        for x in range(0, ancho, 16):
+    for fila in range(0, int(alto / TAM_TILE)):
+        for columna in range(0, int(ancho / TAM_TILE)):
+            
+            x = columna * TAM_TILE
+            y = fila * TAM_TILE
+            
             # Crear imagen
             cuadro = pygame.Surface((16, 16), pygame.SRCALPHA)
             cuadro.blit(imagen, (0, 0), (x, y, 16, 16))
             imagenes.append(cuadro)
             
     # Devolver lista de imagenes
+    print("Cargando spritesheet: " + ruta_spritesheet)
+    print("Número de imagenes: " + str(len(imagenes)))
     return imagenes
 
 def redimensionar_imagen(imagen, escala):

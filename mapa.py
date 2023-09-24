@@ -1,5 +1,6 @@
 import json
 from tile import *
+from ajustes import *
 import herramientas_imagen as hi
 
 class Mapa:
@@ -27,9 +28,8 @@ class Mapa:
             self.tiles_por_capas.append([])
             
             if(capa.get("type") == "tilelayer"):
-            
-                data = capa["data"]
                 
+                data = capa["data"]
                 fila = 0
                 columna = 0
                 
@@ -38,11 +38,12 @@ class Mapa:
                         self.tiles_por_capas[indice_capa].append(Tile(fila, columna, tipo - 1, capa))
                         
                     columna += 1 
-                    if columna >= self.largo - 1:
+                    if columna >= self.largo:
                         columna = 0
                         fila += 1
                 
                 indice_capa += 1
+                
             
         self.numero_capas = indice_capa
                 
@@ -65,9 +66,7 @@ class Mapa:
         for nombre_tileset in self.nombre_tilesets:
             self.imagenes += hi.cargar_spritesheet("res/Backgrounds/Tilesets/" + nombre_tileset)
             
-        self.imagenes = hi.redimensionar_imagenes(self.imagenes, 5)
-                         
-    def dibujar(self, pantalla):
-        for capa in range(self.numero_capas):
-            for tile in self.tiles_por_capas[capa]:
-                pantalla.blit(self.imagenes[tile.tipo], (tile.columna * 16 * 5, tile.fila * 16 * 5))
+        self.imagenes = hi.redimensionar_imagenes(self.imagenes, ESCALA_ZOOM)
+        
+        print(len(self.imagenes))
+                        

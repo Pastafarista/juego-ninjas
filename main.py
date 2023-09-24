@@ -21,7 +21,7 @@ controles = Controles()
 icono = pygame.image.load("res/Actor/Animals/Cat/Faceset.png").convert_alpha()
 pygame.display.set_icon(icono)
 
-personaje = Jugador(controles)
+personaje = Jugador(controles, mapa)
 
 while True:
     for event in pygame.event.get():
@@ -34,8 +34,8 @@ while True:
     
     personaje.actualizar()
     
-    mapa.dibujar(pantalla)
-    pantalla.blit(personaje.obtener_frame_actual(), (personaje.posicion[0], personaje.posicion[1]))
-
+    personaje.camara.render_mapa(pantalla)
+    personaje.camara.render_entidad(personaje, pantalla)
+    
     pygame.display.update()
     reloj.tick(60)
