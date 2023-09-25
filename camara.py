@@ -16,6 +16,7 @@ class Camara():
         
         self.camara_libre = True
     
+    #Obtiene las imágenes de los tiles y entidades que se encuentran en la pantalla	para su posterior renderizado
     def obtener_imagenes_por_capas(self):
         imagenes_por_capas = []
         
@@ -37,8 +38,7 @@ class Camara():
     def render_imagen(self, pantalla, imagen, posicion):
         pantalla.blit(imagen, ( (posicion[0] - self.x) * ESCALA_ZOOM + self.offset_x, (posicion[1] - self.y) * ESCALA_ZOOM + self.offset_y) )
         
-    def render(self, pantalla):
-        
+    def render(self, pantalla):      
         imagenes = self.obtener_imagenes_por_capas()
         
         for capa in imagenes:

@@ -4,6 +4,7 @@ from ajustes import *
 def cargar_imagen(ruta):
     return pygame.image.load(ruta).convert_alpha()
 
+#Carga las "tiras" de un spritesheet (normalmente se usa en animaciones)
 def cargar_spritesheet_animacion_por_columnas(ruta_spritesheet):
     # Cargar la imagen
     imagen = cargar_imagen(ruta_spritesheet)

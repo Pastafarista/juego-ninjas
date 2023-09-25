@@ -14,7 +14,7 @@ class Entidad:
     
     def moverse(self):  
         
-        #Normalizar la dirección
+        #Normalizar la dirección para que no vaya más rápido en diagonal
         if(self.direccion[0] != 0 and self.direccion[1] != 0):
             self.direccion = self.direccion / np.sqrt(np.sum(self.direccion**2))
             

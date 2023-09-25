@@ -71,6 +71,9 @@ class Mapa:
             
         self.imagenes = hi.redimensionar_imagenes(self.imagenes, ESCALA_ZOOM)
         
+    #TODO: Cargar las colisiones del mapa a partir del archivo json
+    def cargar_colisiones(self):
+        pass
         
     def actualizar(self):
         for entidad in self.entidades:
