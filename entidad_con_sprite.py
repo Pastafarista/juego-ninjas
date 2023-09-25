@@ -8,6 +8,7 @@ class Entidad_con_sprite(Entidad):
         super().__init__(pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa)
         self.animacion_actual = ""     
         self.animaciones = {}     
+        self.capa = 3
         
     def agregar_animacion(self, nombre, animacion):
         self.animaciones[nombre] = animacion

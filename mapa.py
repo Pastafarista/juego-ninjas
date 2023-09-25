@@ -17,7 +17,8 @@ class Mapa:
         self.obtener_nombre_tilesets()
         self.cargar_imagenes_tilesets()
         self.cargar_capas()
-        
+     
+    #Carga todas las capas del mapa a partir del archivo json   
     def cargar_capas(self):
         self.tiles_por_capas = []
         
@@ -47,6 +48,7 @@ class Mapa:
             
         self.numero_capas = indice_capa
                 
+    #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):
         self.nombre_tilesets = []
         
@@ -57,7 +59,8 @@ class Mapa:
             
             if(tileset in lista_blanca):
                 self.nombre_tilesets.append(tileset)
-                         
+     
+    #Cargar todas las imagenes de los tilesets y redimensionarlas                    
     def cargar_imagenes_tilesets(self):
         if len(self.nombre_tilesets) == 0:
             print("No hay tilesets")
@@ -68,5 +71,7 @@ class Mapa:
             
         self.imagenes = hi.redimensionar_imagenes(self.imagenes, ESCALA_ZOOM)
         
-        print(len(self.imagenes))
-                        
+        
+    def actualizar(self):
+        for entidad in self.entidades:
+            entidad.actualizar()

@@ -15,12 +15,12 @@ def cargar_spritesheet_animacion_por_columnas(ruta_spritesheet):
     ancho, alto = imagen.get_size()
     
     # Recorrer la imagen
-    for x in range(0, ancho, 16):
+    for x in range(0, ancho, TAM_TILE):
         col = []
-        for y in range(0, alto, 16):
+        for y in range(0, alto, TAM_TILE):
             # Crear imagen
-            cuadro = pygame.Surface((16, 16), pygame.SRCALPHA)
-            cuadro.blit(imagen, (0, 0), (x, y, 16, 16))
+            cuadro = pygame.Surface((TAM_TILE, TAM_TILE), pygame.SRCALPHA)
+            cuadro.blit(imagen, (0, 0), (x, y, TAM_TILE, TAM_TILE))
             col.append(cuadro)
         imagenes.append(col)
             
@@ -49,13 +49,11 @@ def cargar_spritesheet(ruta_spritesheet):
             y = fila * TAM_TILE
             
             # Crear imagen
-            cuadro = pygame.Surface((16, 16), pygame.SRCALPHA)
-            cuadro.blit(imagen, (0, 0), (x, y, 16, 16))
+            cuadro = pygame.Surface((TAM_TILE, TAM_TILE), pygame.SRCALPHA)
+            cuadro.blit(imagen, (0, 0), (x, y, TAM_TILE, TAM_TILE))
             imagenes.append(cuadro)
             
     # Devolver lista de imagenes
-    print("Cargando spritesheet: " + ruta_spritesheet)
-    print("Número de imagenes: " + str(len(imagenes)))
     return imagenes
 
 def redimensionar_imagen(imagen, escala):
