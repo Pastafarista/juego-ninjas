@@ -39,9 +39,6 @@ def cargar_spritesheet(ruta_spritesheet):
     # Obtener dimensiones de la imagen
     ancho, alto = imagen.get_size()
     
-    print("Ancho: " + str(ancho))
-    print("Alto: " + str(alto))
-    
     # Recorrer la imagen
     for fila in range(0, int(alto / TAM_TILE)):
         for columna in range(0, int(ancho / TAM_TILE)):

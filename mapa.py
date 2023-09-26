@@ -2,6 +2,7 @@ import json
 from tile import *
 from ajustes import *
 import herramientas_imagen as hi
+import pygame
 
 class Mapa:
     def __init__(self, ruta_archivo_mapa):
@@ -17,6 +18,7 @@ class Mapa:
         self.obtener_nombre_tilesets()
         self.cargar_imagenes_tilesets()
         self.cargar_capas()
+        self.cargar_colisiones()
      
     #Carga todas las capas del mapa a partir del archivo json   
     def cargar_capas(self):
@@ -47,6 +49,18 @@ class Mapa:
                 
             
         self.numero_capas = indice_capa
+     
+    def cargar_colisiones(self):
+        self.hitbox_objetos = []
+        
+        for capa in self.archivo["layers"]:
+            
+            if(capa.get("type") == "objectgroup" and capa.get("name") == "colisiones"):
+                
+                colisiones = capa["objects"]
+                
+                for colision in colisiones:
+                    self.hitbox_objetos.append(pygame.Rect(colision["x"], colision["y"], colision["width"], colision["height"]))
                 
     #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):
@@ -70,10 +84,6 @@ class Mapa:
             self.imagenes += hi.cargar_spritesheet("res/Backgrounds/Tilesets/" + nombre_tileset)
             
         self.imagenes = hi.redimensionar_imagenes(self.imagenes, ESCALA_ZOOM)
-        
-    #TODO: Cargar las colisiones del mapa a partir del archivo json
-    def cargar_colisiones(self):
-        pass
         
     def actualizar(self):
         for entidad in self.entidades:
