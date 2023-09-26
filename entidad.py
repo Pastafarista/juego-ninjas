@@ -10,6 +10,9 @@ class Entidad:
         self.tam_x = tam_x
         self.tam_y = tam_y
         self.mapa = mapa
+        
+        self.offset_x = offset_x
+        self.offset_y = offset_y
     
     def moverse(self):  
         #Normalizar la dirección para que no vaya más rápido en diagonal
@@ -20,21 +23,32 @@ class Entidad:
         dx = self.direccion[0] * self.velocidad
         dy = self.direccion[1] * self.velocidad
         
-        #Comprobar colisiones con el mapa
+        
+        #Ver si el movimiento va a colisionar con alguna hitbox del mapa
+        
+        
+        #Primero en x
+        hitbox_temporal = self.caja_colision.copy().move(dx, 0)
+        
         for hitbox in self.mapa.hitboxes:
-            if self.caja_colision.move(dx, 0).colliderect(hitbox):
+            if hitbox_temporal.colliderect(hitbox):
                 dx = 0
-            if self.caja_colision.move(0, dy).colliderect(hitbox):
+        
+        #Luego en y 
+        hitbox_temporal = self.caja_colision.copy().move(0, dy)
+        
+        for hitbox in self.mapa.hitboxes:
+            if hitbox_temporal.colliderect(hitbox):
                 dy = 0
             
-        self.posicion += np.array([dx, dy])
+        self.posicion += np.array([int(dx), int(dy)])
         
         #Actualizar la caja de colisiones
         self.actualizar_hitbox()
         
     def actualizar_hitbox(self):
-        self.caja_colision.x = self.posicion[0] 
-        self.caja_colision.y = self.posicion[1]
+        self.caja_colision.x = self.posicion[0] + self.offset_x
+        self.caja_colision.y = self.posicion[1] + self.offset_y
      
                 
     def actualizar(self):
