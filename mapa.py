@@ -1,11 +1,13 @@
 import json
 from tile import *
 from ajustes import *
+from teleport import Teleport
 import herramientas_imagen as hi
 import pygame
 
 class Mapa:
     def __init__(self, ruta_archivo_mapa):
+        self.nombre = ruta_archivo_mapa.split("/")[-1].split(".")[0]
         self.archivo = json.load(open(ruta_archivo_mapa))
         self.entidades = []
         self.imagenes = []
@@ -19,6 +21,7 @@ class Mapa:
         self.cargar_imagenes_tilesets()
         self.cargar_capas()
         self.cargar_colisiones()
+        self.cargar_objetos()
      
     #Carga todas las capas del mapa a partir del archivo json   
     def cargar_capas(self):
@@ -50,8 +53,9 @@ class Mapa:
             
         self.numero_capas = indice_capa
      
+    #Carga las colsiones del mapa a partir del archivo json
     def cargar_colisiones(self):
-        self.hitbox_objetos = []
+        self.hitboxes = []
         
         for capa in self.archivo["layers"]:
             
@@ -60,7 +64,32 @@ class Mapa:
                 colisiones = capa["objects"]
                 
                 for colision in colisiones:
-                    self.hitbox_objetos.append(pygame.Rect(colision["x"], colision["y"], colision["width"], colision["height"]))
+                    self.hitboxes.append(pygame.Rect(colision["x"], colision["y"], colision["width"], colision["height"]))
+                 
+    #Carga los objetos del mapa a partir del archivo json   
+    def cargar_objetos(self):
+        self.objetos = {}
+        
+        for capa in self.archivo["layers"]:
+                
+                if(capa.get("type") == "objectgroup" and capa.get("name") == "objetos"):
+                    
+                    objetos = capa["objects"]
+                    
+                    for objeto in objetos:
+                        if objeto["class"] == "teleport":
+                            
+                            propiedades = objeto["properties"]
+                            
+                            for propiedad in propiedades:
+                                if(propiedad["name"] == "mapa"):
+                                    mapa = propiedad["value"]
+                                elif(propiedad["name"] == "posX"):
+                                    pos_x = float(propiedad["value"])
+                                elif(propiedad["name"] == "posY"):
+                                    pos_y = float(propiedad["value"])
+                            
+                            self.objetos["teleport"] = Teleport(objeto["x"], objeto["y"], objeto["width"], objeto["height"] , self.nombre, mapa, pos_x, pos_y)
                 
     #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):

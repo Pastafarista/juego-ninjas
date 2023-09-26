@@ -21,7 +21,7 @@ class Entidad:
         dy = self.direccion[1] * self.velocidad
         
         #Comprobar colisiones con el mapa
-        for hitbox in self.mapa.hitbox_objetos:
+        for hitbox in self.mapa.hitboxes:
             if self.caja_colision.move(dx, 0).colliderect(hitbox):
                 dx = 0
             if self.caja_colision.move(0, dy).colliderect(hitbox):
@@ -35,7 +35,7 @@ class Entidad:
         
     def comprobar_colisiones(self):
         #Comprobar colisiones con el mapa
-        for hitbox in self.mapa.hitbox_objetos:
+        for hitbox in self.mapa.hitboxes:
             if self.caja_colision.colliderect(hitbox):
                 print("Colisión")
                 
