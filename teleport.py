@@ -1,17 +1,13 @@
 import pygame
 
 class Teleport():
-    def __init__(self, x, y, tamX, tamY, origen, destino, x_destino, y_destino):
-        self.x = x;
-        self.y = y;
+    def __init__(self, x, y, tamX, tamY, mapa_origen, nombre_mapa_destino, destino_x, destino_y):
+        self.caja_colision = pygame.Rect(x, y, tamX, tamY)
         
-        self.tamX = tamX;
-        self.tamY = tamY;
+        self.mapa_origen = mapa_origen
+        self.nombre_mapa_destino = nombre_mapa_destino
         
-        self.origen = origen;
-        self.destino = destino;
-        
-        self.x_destino = x_destino;
-        self.y_destino = y_destino;
+        self.destino_x = destino_x
+        self.destino_y = destino_y
         
         

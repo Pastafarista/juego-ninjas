@@ -1,7 +1,6 @@
 from sys import exit
 from ajustes import *
-from mapa import Mapa
-from controles import Controles
+from mundo import Mundo
 from jugador import Jugador
 from camara import Camara
 import pygame
@@ -14,15 +13,15 @@ pygame.display.set_caption("Juego Ninjas")
 reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(RESOLUCION)
 
-mapa = Mapa("mapas/mapa.json")
+mundo = Mundo()
 
-controles = Controles()
+mapa = mundo.mapas["mundo"]
 
 #Icono de la ventana
 icono = pygame.image.load("res/Actor/Animals/Cat/Faceset.png").convert_alpha()
 pygame.display.set_icon(icono)
 
-personaje = Jugador(controles, mapa)
+personaje = Jugador(mapa)
 
 mapa.entidades.append(personaje)
 
@@ -37,7 +36,7 @@ while True:
      #Limpiar la pantalla
     pantalla.fill((0, 0, 0))       
     
-    mapa.actualizar()
+    mundo.actualizar()
     
     camara.actualizar()
     camara.render(pantalla)

@@ -30,15 +30,12 @@ class Entidad:
         self.posicion += np.array([dx, dy])
         
         #Actualizar la caja de colisiones
+        self.actualizar_hitbox()
+        
+    def actualizar_hitbox(self):
         self.caja_colision.x = self.posicion[0] 
         self.caja_colision.y = self.posicion[1]
-        
-    def comprobar_colisiones(self):
-        #Comprobar colisiones con el mapa
-        for hitbox in self.mapa.hitboxes:
-            if self.caja_colision.colliderect(hitbox):
-                print("Colisión")
+     
                 
     def actualizar(self):
-        self.comprobar_colisiones()
         self.moverse()

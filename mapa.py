@@ -6,11 +6,12 @@ import herramientas_imagen as hi
 import pygame
 
 class Mapa:
-    def __init__(self, ruta_archivo_mapa):
+    def __init__(self, ruta_archivo_mapa, mundo):
         self.nombre = ruta_archivo_mapa.split("/")[-1].split(".")[0]
         self.archivo = json.load(open(ruta_archivo_mapa))
         self.entidades = []
         self.imagenes = []
+        self.mundo = mundo
         self.cargar()
 
     def cargar(self):
@@ -68,7 +69,7 @@ class Mapa:
                  
     #Carga los objetos del mapa a partir del archivo json   
     def cargar_objetos(self):
-        self.objetos = {}
+        self.objetos = {"teleport": []}
         
         for capa in self.archivo["layers"]:
                 
@@ -83,13 +84,13 @@ class Mapa:
                             
                             for propiedad in propiedades:
                                 if(propiedad["name"] == "mapa"):
-                                    mapa = propiedad["value"]
+                                    nombre_mapa_destino = propiedad["value"]
                                 elif(propiedad["name"] == "posX"):
-                                    pos_x = float(propiedad["value"])
+                                    destino_x = float(propiedad["value"])
                                 elif(propiedad["name"] == "posY"):
-                                    pos_y = float(propiedad["value"])
+                                    destino_y = float(propiedad["value"])
                             
-                            self.objetos["teleport"] = Teleport(objeto["x"], objeto["y"], objeto["width"], objeto["height"] , self.nombre, mapa, pos_x, pos_y)
+                            self.objetos["teleport"].append(Teleport(objeto["x"], objeto["y"], objeto["width"], objeto["height"] , self.nombre, nombre_mapa_destino, destino_x, destino_y))
                 
     #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):

@@ -1,13 +1,11 @@
 from entidad_con_sprite import Entidad_con_sprite
-from animacion import Animacion
-from camara import Camara
-import herramientas_imagen as hi
+from controles import Controles
 import numpy as np
 
 class Jugador(Entidad_con_sprite):
-    def __init__(self, controles, mapa):
+    def __init__(self, mapa):
         super().__init__(pos_x=0, pos_y=0, offset_x=0, offset_y=0, tam_x=16, tam_y=16, velocidad=2, mapa=mapa)
-        self.controles = controles
+        self.controles = Controles()
         self.cargar_animaciones("BlueNinja")
           
     def cargar_animaciones(self, nombre_skin):
@@ -15,7 +13,21 @@ class Jugador(Entidad_con_sprite):
         self.agregar_animaciones(["idle_abajo", "idle_arriba", "idle_izquierda", "idle_derecha"], "res/Actor/Characters/" +  nombre_skin + "/SeparateAnim/Idle.png")
         self.cambiar_animacion("idle_abajo")
             
-    def actualizar(self):
+    def comprobar_teleports(self):
+        for teleport in self.mapa.objetos["teleport"]:
+            if self.caja_colision.colliderect(teleport.caja_colision):
+                self.mapa.entidades.remove(self)
+                
+                self.mapa = self.mapa.mundo.mapas[teleport.nombre_mapa_destino]
+                self.mapa.entidades.append(self)
+                
+                #Cambiar la posición del jugador
+                self.posicion[0] = teleport.destino_x
+                self.posicion[1] = teleport.destino_y
+                self.actualizar_hitbox()
+
+            
+    def actualizar_estado(self):
         
         self.direccion = np.array([0, 0])
         
@@ -43,5 +55,9 @@ class Jugador(Entidad_con_sprite):
         
         self.cambiar_animacion(estado)
         
+    def actualizar(self):
         super().actualizar()
+        self.actualizar_estado()
+        self.comprobar_teleports()
+        print(self.posicion)
         
