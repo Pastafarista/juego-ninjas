@@ -26,12 +26,10 @@ class Jugador(Entidad_con_sprite):
                 self.posicion[1] = teleport.destino_y
                 self.actualizar_hitbox()
 
-            
     def actualizar_estado(self):
-        
         self.direccion = np.array([0, 0])
         
-        estado = self.animacion_actual
+        estado = self.nombre_animacion_actual
         
         if self.controles.obtener_tecla("w"):
             estado = "andar_arriba"

@@ -6,7 +6,7 @@ from ajustes import *
 class Entidad_con_sprite(Entidad):
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa):
         super().__init__(pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa)
-        self.animacion_actual = ""     
+        self.nombre_animacion_actual = ""     
         self.animaciones = {}     
         self.capa = 2
         
@@ -22,13 +22,13 @@ class Entidad_con_sprite(Entidad):
             indice += 1
         
     def cambiar_animacion(self, nombre):
-        if nombre != self.animacion_actual:
-            self.animacion_actual = nombre
-            self.animaciones[self.animacion_actual].reiniciar()
+        if nombre != self.nombre_animacion_actual:
+            self.nombre_animacion_actual = nombre
+            self.animaciones[self.nombre_animacion_actual].reiniciar()
         
     def actualizar(self):
         super().actualizar()
-        self.animaciones[self.animacion_actual].siguiente_frame()
+        self.animaciones[self.nombre_animacion_actual].siguiente_frame()
         
     def obtener_frame_actual(self):
-        return self.animaciones[self.animacion_actual].obtener_frame_actual()
+        return self.animaciones[self.nombre_animacion_actual].obtener_frame_actual()

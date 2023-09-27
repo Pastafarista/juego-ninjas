@@ -3,6 +3,7 @@ from ajustes import *
 from mundo import Mundo
 from jugador import Jugador
 from camara import Camara
+from slime import Slime
 import herramientas_imagen as hi
 import pygame
 
@@ -25,6 +26,8 @@ pygame.display.set_icon(icono)
 personaje = Jugador(mapa)
 
 mapa.entidades.append(personaje)
+
+mapa.entidades.append(Slime(200, 300, mapa))
 
 camara = Camara(personaje)
 

@@ -19,10 +19,8 @@ class Entidad:
         if(self.direccion[0] != 0 and self.direccion[1] != 0):
             self.direccion = self.direccion / np.sqrt(np.sum(self.direccion**2))
             
-            
         dx = self.direccion[0] * self.velocidad
         dy = self.direccion[1] * self.velocidad
-        
         
         #Ver si el movimiento va a colisionar con alguna hitbox del mapa o con los límites del mapa
         
@@ -48,7 +46,6 @@ class Entidad:
     def actualizar_hitbox(self):
         self.caja_colision.x = self.posicion[0] + self.offset_x
         self.caja_colision.y = self.posicion[1] + self.offset_y
-     
                 
     def actualizar(self):
         self.moverse()
