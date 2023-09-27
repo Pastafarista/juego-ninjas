@@ -41,7 +41,7 @@ class Entidad:
             if hitbox_temporal.colliderect(hitbox):
                 dy = 0
             
-        self.posicion += np.array([int(dx), int(dy)])
+        self.posicion += np.array([round(dx), round(dy)])
         
         #Actualizar la caja de colisiones
         self.actualizar_hitbox()

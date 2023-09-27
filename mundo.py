@@ -18,5 +18,3 @@ class Mundo:
         for mapa in self.mapas.values():
             mapa.actualizar()
     
-    def dibujar(self, pantalla):
-        pass

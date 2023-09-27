@@ -42,10 +42,7 @@ while True:
     camara.actualizar()
     camara.render(pantalla)
     
-    surface = hi.redimensionar_imagen(pygame.Surface((personaje.caja_colision.width, personaje.caja_colision.height)), ESCALA_ZOOM)
-    
-    camara.render_imagen(pantalla, surface, (personaje.caja_colision.x, personaje.caja_colision.y))
-    
+    #camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((personaje.caja_colision.width, personaje.caja_colision.height)), ESCALA_ZOOM), (personaje.caja_colision.x, personaje.caja_colision.y))
     
     pygame.display.update()
     reloj.tick(60)

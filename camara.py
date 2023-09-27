@@ -33,6 +33,11 @@ class Camara():
         for entidad in self.jugador.mapa.entidades:
             imagenes_por_capas[entidad.capa].append((entidad.obtener_frame_actual(), (entidad.posicion[0], entidad.posicion[1])))
             
+        #ordenar las capas en función de imagen_y para que se rendericen en el orden adecuado
+        for capa in range(numero_capas):
+            imagenes_por_capas[capa].sort(key=lambda x: x[1][1])
+            
+            
         return imagenes_por_capas
     
     def render_imagen(self, pantalla, imagen, posicion):
