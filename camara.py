@@ -1,4 +1,5 @@
 from ajustes import *
+from hud import Hud
 
 class Camara():
     def __init__(self, jugador):
@@ -10,6 +11,7 @@ class Camara():
         self.y_final = 0
         
         self.jugador = jugador
+        self.hud = Hud(jugador)
         
         self.offset_x = LARGO_PANTALLA / 2 - jugador.tam_x / 2
         self.offset_y = ALTO_PANTALLA / 2  - jugador.tam_y / 2
@@ -37,7 +39,6 @@ class Camara():
         for capa in range(numero_capas):
             imagenes_por_capas[capa].sort(key=lambda x: x[1][1])
             
-            
         return imagenes_por_capas
     
     def render_imagen(self, pantalla, imagen, posicion):
@@ -49,6 +50,9 @@ class Camara():
         for capa in imagenes:
             for imagen in capa:
                 self.render_imagen(pantalla, imagen[0], imagen[1])
+                
+        #renderizar las imagenes del hud
+        self.hud.render(pantalla)
     
     #Actualiza la posición de la cámara en función de la posición del jugador    
     def actualizar(self):
@@ -63,4 +67,5 @@ class Camara():
             self.x = self.jugador.posicion[0]
         if y - offset_camara_y >= 0 and y + offset_camara_y < self.jugador.mapa.alto:
             self.y = self.jugador.posicion[1]
+            
     

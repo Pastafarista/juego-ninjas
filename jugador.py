@@ -7,6 +7,8 @@ class Jugador(Entidad_con_sprite):
         super().__init__(pos_x=200, pos_y=200, offset_x=2, offset_y=3, tam_x=11, tam_y=11, velocidad=2, mapa=mapa)
         self.controles = Controles()
         self.cargar_animaciones("BlueNinja")
+        self.vida = 12
+        self.vida_maxima = 12
           
     def cargar_animaciones(self, nombre_skin):
         self.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")

@@ -34,7 +34,7 @@ while True:
             pygame.quit()
             exit()
                   
-     #Limpiar la pantalla
+    #Limpiar la pantalla
     pantalla.fill((0, 0, 0))       
     
     mundo.actualizar()
