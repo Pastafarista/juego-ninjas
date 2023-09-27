@@ -26,9 +26,6 @@ pygame.display.set_icon(icono)
 personaje = Jugador(mapa)
 
 mapa.entidades.append(personaje)
-
-mapa.entidades.append(Slime(200, 300, mapa))
-
 camara = Camara(personaje)
 
 while True:

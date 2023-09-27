@@ -1,5 +1,4 @@
 from entidad_con_sprite import Entidad_con_sprite
-from animacion import Animacion
 from timer import Timer
 from random import randint
 import numpy as np

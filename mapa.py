@@ -3,6 +3,7 @@ from tile import *
 from ajustes import *
 from teleport import Teleport
 import herramientas_imagen as hi
+from slime import Slime
 import pygame
 
 class Mapa:
@@ -94,6 +95,9 @@ class Mapa:
                                     destino_y = float(propiedad["value"])
                             
                             self.objetos["teleport"].append(Teleport(objeto["x"], objeto["y"], objeto["width"], objeto["height"] , self.nombre, nombre_mapa_destino, destino_x, destino_y))
+                        
+                        elif objeto["class"] == "slime":
+                            self.entidades.append(Slime(objeto["x"], objeto["y"], self))
                 
     #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):
