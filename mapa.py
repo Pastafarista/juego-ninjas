@@ -15,8 +15,11 @@ class Mapa:
         self.cargar()
 
     def cargar(self):
-        self.alto = self.archivo["height"]
-        self.largo = self.archivo["width"]
+        self.tiles_alto = self.archivo["height"]
+        self.tiles_largo = self.archivo["width"]
+        
+        self.largo = self.tiles_largo * TAM_TILE
+        self.alto = self.tiles_alto * TAM_TILE
         
         self.obtener_nombre_tilesets()
         self.cargar_imagenes_tilesets()
@@ -45,7 +48,7 @@ class Mapa:
                         self.tiles_por_capas[indice_capa].append(Tile(fila, columna, tipo - 1, capa))
                         
                     columna += 1 
-                    if columna >= self.largo:
+                    if columna >= self.tiles_largo:
                         columna = 0
                         fila += 1
                 

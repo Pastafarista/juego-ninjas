@@ -4,7 +4,7 @@ import numpy as np
 
 class Jugador(Entidad_con_sprite):
     def __init__(self, mapa):
-        super().__init__(pos_x=0, pos_y=0, offset_x=2, offset_y=3, tam_x=11, tam_y=11, velocidad=2, mapa=mapa)
+        super().__init__(pos_x=200, pos_y=200, offset_x=2, offset_y=3, tam_x=11, tam_y=11, velocidad=2, mapa=mapa)
         self.controles = Controles()
         self.cargar_animaciones("BlueNinja")
           

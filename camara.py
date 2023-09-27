@@ -52,9 +52,15 @@ class Camara():
     
     #Actualiza la posición de la cámara en función de la posición del jugador    
     def actualizar(self):
-        jugador_pos_x = self.jugador.posicion[0]
-        jugador_pos_y = self.jugador.posicion[1]
-
-        self.x = jugador_pos_x
-        self.y = jugador_pos_y
+        x = self.jugador.posicion[0]
+        y = self.jugador.posicion[1] 
+        
+        offset_camara_x = LARGO_PANTALLA / (2 * ESCALA_ZOOM)
+        offset_camara_y = ALTO_PANTALLA / (2 * ESCALA_ZOOM)
+        
+        #Si el jugador está fuera del mapa la cámara se para
+        if x - offset_camara_x  >= 0 and x + offset_camara_x < self.jugador.mapa.largo:
+            self.x = self.jugador.posicion[0]
+        if y - offset_camara_y >= 0 and y + offset_camara_y < self.jugador.mapa.alto:
+            self.y = self.jugador.posicion[1]
     
