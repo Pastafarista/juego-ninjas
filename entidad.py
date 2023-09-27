@@ -24,21 +24,20 @@ class Entidad:
         dy = self.direccion[1] * self.velocidad
         
         
-        #Ver si el movimiento va a colisionar con alguna hitbox del mapa
-        
+        #Ver si el movimiento va a colisionar con alguna hitbox del mapa o con los límites del mapa
         
         #Primero en x
         hitbox_temporal = self.caja_colision.copy().move(dx, 0)
         
         for hitbox in self.mapa.hitboxes:
-            if hitbox_temporal.colliderect(hitbox):
+            if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.x < 0 or hitbox_temporal.x + hitbox_temporal.width > self.mapa.largo:
                 dx = 0
         
         #Luego en y 
         hitbox_temporal = self.caja_colision.copy().move(0, dy)
         
         for hitbox in self.mapa.hitboxes:
-            if hitbox_temporal.colliderect(hitbox):
+            if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.y < 0 or hitbox_temporal.y + hitbox_temporal.height > self.mapa.alto:
                 dy = 0
             
         self.posicion += np.array([round(dx), round(dy)])
