@@ -15,6 +15,5 @@ class Timer():
         if self.activado:
             if time.perf_counter() - self.tiempo_actual >= self.tiempo:
                 self.activado = False
-                return True
             
     

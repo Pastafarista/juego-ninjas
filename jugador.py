@@ -10,7 +10,7 @@ class Jugador(Entidad_con_sprite):
         self.cargar_animaciones("BlueNinja")
         self.vida = 12
         self.vida_maxima = 12
-        self.timer_cooldown_vida = Timer()
+        self.añadir_timer("cooldown_vida")
           
     def cargar_animaciones(self, nombre_skin):
         self.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")
@@ -29,16 +29,34 @@ class Jugador(Entidad_con_sprite):
                 self.posicion[0] = teleport.destino_x
                 self.posicion[1] = teleport.destino_y
                 self.actualizar_hitbox()
-                
+    
+    #Comprobar si el jugador está colisionando con algún enemigo y restarle vida           
     def comprobar_colisiones_enemigos(self):
-        if(self.timer_cooldown_vida.activado == False):
+        if(self.timers["cooldown_vida"].activado == False):
             for enemigo in self.mapa.enemigos:
                 if self.caja_colision.colliderect(enemigo.caja_colision):
                     self.vida -= enemigo.daño
+                    self.desplazarse(-self.obtener_ultima_direccion(), 0.25)
                     
-            self.timer_cooldown_vida.activar(1.5)
+            self.timers["cooldown_vida"].activar(1)
 
-    def actualizar_estado(self):
+    def obtener_ultima_direccion(self):
+        texto_direccion = self.nombre_animacion_actual.split("_")[1]
+        
+        if texto_direccion == "abajo":
+            return np.array([0, 1])
+        elif texto_direccion == "arriba":
+            return np.array([0, -1])
+        elif texto_direccion == "izquierda":
+            return np.array([-1, 0])
+        elif texto_direccion == "derecha":
+            return np.array([1, 0])
+
+    def actualizar_estado(self):    
+        #Si se está desplazando, no se puede cambiar de dirección
+        if self.timers["desplazarse"].activado == True:
+            return
+        
         self.direccion = np.array([0, 0])
         
         estado = self.nombre_animacion_actual
@@ -67,9 +85,8 @@ class Jugador(Entidad_con_sprite):
         
     def actualizar(self):
         super().actualizar()
-        self.timer_cooldown_vida.actualizar()
+        self.comprobar_colisiones_enemigos()
         self.actualizar_estado()
         self.comprobar_teleports()
-        self.comprobar_colisiones_enemigos()
         print(self.posicion)
         
