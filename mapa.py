@@ -11,6 +11,7 @@ class Mapa:
         self.nombre = ruta_archivo_mapa.split("/")[-1].split(".")[0]
         self.archivo = json.load(open(ruta_archivo_mapa))
         self.entidades = []
+        self.enemigos = []
         self.imagenes = []
         self.mundo = mundo
         self.cargar()
@@ -97,7 +98,7 @@ class Mapa:
                             self.objetos["teleport"].append(Teleport(objeto["x"], objeto["y"], objeto["width"], objeto["height"] , self.nombre, nombre_mapa_destino, destino_x, destino_y))
                         
                         elif objeto["class"] == "slime":
-                            self.entidades.append(Slime(objeto["x"], objeto["y"], self))
+                            self.enemigos.append(Slime(objeto["x"], objeto["y"], self))
                 
     #Obtiene los tilesets que se van a utilizar para el mapa en el orden adecuado, (el orden es importante porque los ids de las tiles va en función del orden en el que se cargan los tilesets)
     def obtener_nombre_tilesets(self):
@@ -125,3 +126,6 @@ class Mapa:
     def actualizar(self):
         for entidad in self.entidades:
             entidad.actualizar()
+        
+        for enemigo in self.enemigos:
+            enemigo.actualizar()

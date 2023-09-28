@@ -32,7 +32,7 @@ class Camara():
                 
                 imagenes_por_capas[capa].append((self.jugador.mapa.imagenes[tile.tipo],(imagen_x, imagen_y)))
 
-        for entidad in self.jugador.mapa.entidades:
+        for entidad in self.jugador.mapa.entidades + self.jugador.mapa.enemigos:
             imagenes_por_capas[entidad.capa].append((entidad.obtener_frame_actual(), (entidad.posicion[0], entidad.posicion[1])))
             
         #ordenar las capas en función de imagen_y para que se rendericen en el orden adecuado

@@ -1,5 +1,6 @@
 from entidad_con_sprite import Entidad_con_sprite
 from controles import Controles
+from timer import Timer
 import numpy as np
 
 class Jugador(Entidad_con_sprite):
@@ -9,6 +10,7 @@ class Jugador(Entidad_con_sprite):
         self.cargar_animaciones("BlueNinja")
         self.vida = 12
         self.vida_maxima = 12
+        self.timer_cooldown_vida = Timer()
           
     def cargar_animaciones(self, nombre_skin):
         self.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")
@@ -27,6 +29,14 @@ class Jugador(Entidad_con_sprite):
                 self.posicion[0] = teleport.destino_x
                 self.posicion[1] = teleport.destino_y
                 self.actualizar_hitbox()
+                
+    def comprobar_colisiones_enemigos(self):
+        if(self.timer_cooldown_vida.activado == False):
+            for enemigo in self.mapa.enemigos:
+                if self.caja_colision.colliderect(enemigo.caja_colision):
+                    self.vida -= enemigo.daño
+                    
+            self.timer_cooldown_vida.activar(1.5)
 
     def actualizar_estado(self):
         self.direccion = np.array([0, 0])
@@ -57,7 +67,9 @@ class Jugador(Entidad_con_sprite):
         
     def actualizar(self):
         super().actualizar()
+        self.timer_cooldown_vida.actualizar()
         self.actualizar_estado()
         self.comprobar_teleports()
+        self.comprobar_colisiones_enemigos()
         print(self.posicion)
         

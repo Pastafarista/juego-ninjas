@@ -7,6 +7,7 @@ class Slime(Entidad_con_sprite):
     def __init__(self, pos_x, pos_y, mapa):
         super().__init__(pos_x, pos_y, 0, 0, 12, 12 , 1, mapa)
 
+        self.daño = 1
         self.timer_cooldown_moverse = Timer()
         self.direccion_actual = np.array([0, 0])
         self.cargar_animaciones()
@@ -15,7 +16,7 @@ class Slime(Entidad_con_sprite):
         
         nombres_animaciones = ["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"]
         
-        self.agregar_animaciones(nombres_animaciones, "res/Actor/Monsters/Slime.png")
+        self.agregar_animaciones(nombres_animaciones, "res/Actor/Monsters/Slime2.png")
         
         self.cambiar_animacion("andar_abajo")
             
@@ -34,8 +35,7 @@ class Slime(Entidad_con_sprite):
             
         self.cambiar_animacion(estado)
         
-    def inteligencia_artifical_slime(self):
-        
+    def inteligencia_artifical_slime(self):   
         #Cambiar la dirección actual cada 3-5 segundos
         if self.timer_cooldown_moverse.activado == False:
             
