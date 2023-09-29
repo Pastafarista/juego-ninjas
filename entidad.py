@@ -52,6 +52,10 @@ class Entidad:
     def desplazarse(self, direccion, tiempo):
         self.direccion = direccion
         self.timers["desplazarse"].activar(tiempo)
+       
+    #Ver si se está desplazando 
+    def se_esta_desplazando(self):
+        return self.timers["desplazarse"].activado
     
     def actualizar_timers(self):
         for timer in self.timers.values():

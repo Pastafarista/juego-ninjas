@@ -42,7 +42,11 @@ while True:
     camara.actualizar()
     camara.render(pantalla)
     
-    #camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((personaje.caja_colision.width, personaje.caja_colision.height)), ESCALA_ZOOM), (personaje.caja_colision.x, personaje.caja_colision.y))
+    for enemigo in mapa.enemigos:
+        camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((enemigo.caja_colision.width, enemigo.caja_colision.height)), ESCALA_ZOOM), (enemigo.caja_colision.x, enemigo.caja_colision.y))
+    
+    camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((personaje.caja_colision.width, personaje.caja_colision.height)), ESCALA_ZOOM), (personaje.caja_colision.x, personaje.caja_colision.y))
+
     
     pygame.display.update()
     reloj.tick(60)

@@ -54,7 +54,7 @@ class Jugador(Entidad_con_sprite):
 
     def actualizar_estado(self):    
         #Si se está desplazando, no se puede cambiar de dirección
-        if self.timers["desplazarse"].activado == True:
+        if self.se_esta_desplazando() == True:
             return
         
         self.direccion = np.array([0, 0])

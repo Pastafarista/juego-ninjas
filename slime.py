@@ -5,10 +5,9 @@ import numpy as np
 
 class Slime(Entidad_con_sprite):
     def __init__(self, pos_x, pos_y, mapa):
-        super().__init__(pos_x, pos_y, 0, 0, 12, 12 , 1, mapa)
+        super().__init__(pos_x=pos_x, pos_y=pos_y, offset_x=3, offset_y=4, tam_x=11, tam_y=9, velocidad=1, mapa=mapa)
 
         self.daño = 1
-        self.timer_cooldown_moverse = Timer()
         self.direccion_actual = np.array([0, 0])
         self.cargar_animaciones()
         
@@ -37,8 +36,7 @@ class Slime(Entidad_con_sprite):
         
     def inteligencia_artifical_slime(self):   
         #Cambiar la dirección actual cada 3-5 segundos
-        if self.timer_cooldown_moverse.activado == False:
-            
+        if self.se_esta_desplazando() == False:
             self.direccion_actual = np.array([0, 0])
             
             #Cambiar a una dirección aleatorio pero que no es diagonal
@@ -47,12 +45,9 @@ class Slime(Entidad_con_sprite):
             else:
                 self.direccion_actual[1] = randint(-1, 1)
             
-            self.timer_cooldown_moverse.activar(randint(1, 3))
-            
-        self.direccion = self.direccion_actual
+            self.desplazarse(self.direccion_actual, randint(1, 3))
             
     def actualizar(self):
         super().actualizar()
-        self.timer_cooldown_moverse.actualizar()
         self.inteligencia_artifical_slime()
         self.actualizar_estado()
