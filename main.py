@@ -5,6 +5,7 @@ from mundo import Mundo
 from jugador import Jugador
 from camara import Camara
 import herramientas_imagen as hi
+import debug
 
 #Iniciar pygame
 pygame.init()
@@ -41,11 +42,7 @@ while True:
     camara.actualizar()
     camara.render(pantalla)
     
-    #Para debuggear
-    for enemigo in mapa.enemigos:
-        camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((enemigo.caja_colision.width, enemigo.caja_colision.height)), ESCALA_ZOOM), (enemigo.caja_colision.x, enemigo.caja_colision.y))
-    
-    camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((personaje.caja_colision.width, personaje.caja_colision.height)), ESCALA_ZOOM), (personaje.caja_colision.x, personaje.caja_colision.y))
+    debug.mostrar_posicion(personaje, pantalla)
 
     pygame.display.update()
     reloj.tick(60)

@@ -87,5 +87,4 @@ class Jugador(Entidad_con_sprite):
         self.comprobar_colisiones_enemigos()
         self.actualizar_estado()
         self.comprobar_teleports()
-        print(self.posicion)
         
