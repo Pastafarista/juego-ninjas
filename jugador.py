@@ -36,9 +36,8 @@ class Jugador(Entidad_con_sprite):
             for enemigo in self.mapa.enemigos:
                 if self.caja_colision.colliderect(enemigo.caja_colision):
                     self.vida -= enemigo.daño
-                    self.desplazarse(-self.obtener_ultima_direccion(), 0.25)
-                    
-            self.timers["cooldown_vida"].activar(1)
+                    self.desplazarse(-self.obtener_ultima_direccion(), 0.25)       
+                    self.timers["cooldown_vida"].activar(1)
 
     def obtener_ultima_direccion(self):
         texto_direccion = self.nombre_animacion_actual.split("_")[1]
