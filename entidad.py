@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 from timer import Timer
 import math
+
 class Entidad:
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa):
         
@@ -38,14 +39,14 @@ class Entidad:
         #Ver si el movimiento va a colisionar con alguna hitbox del mapa o con los límites del mapa
         
         #Primero en x
-        hitbox_temporal = self.caja_colision.copy().move(round(dx), 0)
+        hitbox_temporal = self.caja_colision.copy().move(round(dx) + round(self.direccion[0]), 0)
         
         for hitbox in self.mapa.hitboxes:
             if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.x < 0 or hitbox_temporal.x + hitbox_temporal.width > self.mapa.largo:
                 dx = 0
         
         #Luego en y 
-        hitbox_temporal = self.caja_colision.copy().move(0, round(dy))
+        hitbox_temporal = self.caja_colision.copy().move(0 , round(dy) + round(self.direccion[1]))
         
         for hitbox in self.mapa.hitboxes:
             if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.y < 0 or hitbox_temporal.y + hitbox_temporal.height > self.mapa.alto:

@@ -10,6 +10,7 @@ class Mapa:
     def __init__(self, ruta_archivo_mapa, mundo):
         self.nombre = ruta_archivo_mapa.split("/")[-1].split(".")[0]
         self.archivo = json.load(open(ruta_archivo_mapa))
+        self.hitboxes = []
         self.entidades = []
         self.enemigos = []
         self.imagenes = []

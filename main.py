@@ -49,6 +49,8 @@ while True:
     camara.render(pantalla)
     
     # Debuging
+    # debug.mostar_hitbox(personaje, camara, pantalla)
+    # debug.mostrar_hitbox_mapa(personaje.mapa, camara, pantalla)
     fps.mostar(dt)
     debug.debug("Posición: " + str(personaje.pos_x) + " " +  str(personaje.pos_y), 10, 200)
     
