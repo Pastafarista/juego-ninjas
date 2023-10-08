@@ -26,8 +26,8 @@ class Jugador(Entidad_con_sprite):
                 self.mapa.entidades.append(self)
                 
                 #Cambiar la posición del jugador
-                self.posicion[0] = teleport.destino_x
-                self.posicion[1] = teleport.destino_y
+                self.pos_x_real = teleport.destino_x
+                self.pos_y_real = teleport.destino_y
                 self.actualizar_hitbox()
     
     #Comprobar si el jugador está colisionando con algún enemigo y restarle vida           

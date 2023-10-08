@@ -10,9 +10,9 @@ class Animacion:
         return self.imagenes[self.frame_actual] 
         
     def siguiente_frame(self, dt):
-        self.tiempo += round(1 * dt * 60)
+        self.tiempo += dt * 60
         
-        if self.tiempo >= self.duracion_frame:
+        if int(self.tiempo) >= self.duracion_frame:
             self.tiempo = 0
             self.frame_actual += 1
             

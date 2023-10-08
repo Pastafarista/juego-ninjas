@@ -9,7 +9,7 @@ pygame.font.init()
 
 fuente = pygame.font.SysFont("Arial", 30)
 
-def render_texto(mensaje, x, y):
+def debug(mensaje, x, y):
     display_surf = pygame.display.get_surface()
     texto = fuente.render(mensaje, True, (255, 255, 255))
     debug_rect = texto.get_rect(topleft = (x, y))
@@ -22,4 +22,4 @@ def mostar_fps(dt):
     else:
         fps = 1 / dt
     
-    render_texto("FPS: " + str(round(fps)), 10, 70)
+    debug("FPS: " + str(round(fps)), 10, 70)

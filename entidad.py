@@ -4,7 +4,15 @@ from timer import Timer
 import math
 class Entidad:
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa):
-        self.posicion = np.array([pos_x, pos_y], dtype=float)
+        
+        # Posición en píxeles (están truncadas a enteros)
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+        
+        # Posición real (con decimales)
+        self.pos_x_real = pos_x
+        self.pos_y_real = pos_y
+        
         self.caja_colision = pygame.Rect(pos_x, pos_y, tam_x, tam_y)
         self.velocidad = velocidad
         self.direccion = np.array([0, 0], dtype=float)
@@ -24,26 +32,32 @@ class Entidad:
         if(self.direccion[0] != 0 and self.direccion[1] != 0):
             self.direccion = self.direccion / np.sqrt(np.sum(self.direccion**2))
             
-        dx = round(self.direccion[0] * self.velocidad * dt)
-        dy = round(self.direccion[1] * self.velocidad * dt)
+        dx = self.velocidad * self.direccion[0] * dt
+        dy = self.velocidad * self.direccion[1] * dt
         
         #Ver si el movimiento va a colisionar con alguna hitbox del mapa o con los límites del mapa
         
         #Primero en x
-        hitbox_temporal = self.caja_colision.copy().move(dx, 0)
+        hitbox_temporal = self.caja_colision.copy().move(round(dx), 0)
         
         for hitbox in self.mapa.hitboxes:
             if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.x < 0 or hitbox_temporal.x + hitbox_temporal.width > self.mapa.largo:
                 dx = 0
         
         #Luego en y 
-        hitbox_temporal = self.caja_colision.copy().move(0, dy)
+        hitbox_temporal = self.caja_colision.copy().move(0, round(dy))
         
         for hitbox in self.mapa.hitboxes:
             if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.y < 0 or hitbox_temporal.y + hitbox_temporal.height > self.mapa.alto:
                 dy = 0
-            
-        self.posicion += np.array([dx, dy])
+        
+        # Actualizar la posición real
+        self.pos_x_real += dx
+        self.pos_y_real += dy
+        
+        # Actualizar la posición truncada
+        self.pos_x = int(self.pos_x_real)
+        self.pos_y = int(self.pos_y_real)
         
         #Actualizar la caja de colisiones
         self.actualizar_hitbox()
@@ -65,8 +79,8 @@ class Entidad:
         self.timers[nombre] = Timer()
         
     def actualizar_hitbox(self):
-        self.caja_colision.x = self.posicion[0] + self.offset_x
-        self.caja_colision.y = self.posicion[1] + self.offset_y
+        self.caja_colision.x = self.pos_x + self.offset_x
+        self.caja_colision.y = self.pos_y + self.offset_y
                 
     def actualizar(self, dt):
         self.moverse(dt)

@@ -47,7 +47,7 @@ while True:
     camara.render(pantalla)
     
     debug.mostar_fps(dt)
-
+    debug.debug("Posición: " + str(personaje.pos_x) + " " +  str(personaje.pos_y), 10, 200)
     pygame.display.update()
     
 

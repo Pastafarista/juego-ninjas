@@ -33,7 +33,7 @@ class Camara():
                 imagenes_por_capas[capa].append((self.jugador.mapa.imagenes[tile.tipo],(imagen_x, imagen_y)))
 
         for entidad in self.jugador.mapa.entidades + self.jugador.mapa.enemigos:
-            imagenes_por_capas[entidad.capa].append((entidad.obtener_frame_actual(), (entidad.posicion[0], entidad.posicion[1])))
+            imagenes_por_capas[entidad.capa].append((entidad.obtener_frame_actual(), (entidad.pos_x, entidad.pos_y)))
             
         #ordenar las capas en función de imagen_y para que se rendericen en el orden adecuado
         for capa in range(numero_capas):
@@ -61,16 +61,16 @@ class Camara():
     
     #Actualiza la posición de la cámara en función de la posición del jugador    
     def actualizar(self):
-        x = self.jugador.posicion[0]
-        y = self.jugador.posicion[1] 
+        x = self.jugador.pos_x
+        y = self.jugador.pos_y
         
         offset_camara_x = LARGO_PANTALLA / (2 * ESCALA_ZOOM)
         offset_camara_y = ALTO_PANTALLA / (2 * ESCALA_ZOOM)
         
         #Si el jugador está fuera del mapa la cámara se para
         if x - offset_camara_x  >= 0 and x + offset_camara_x < self.jugador.mapa.largo:
-            self.x = self.jugador.posicion[0]
+            self.x = self.jugador.pos_x
         if y - offset_camara_y >= 0 and y + offset_camara_y < self.jugador.mapa.alto:
-            self.y = self.jugador.posicion[1]
+            self.y = self.jugador.pos_y
             
     
