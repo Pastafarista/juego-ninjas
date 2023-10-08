@@ -13,21 +13,21 @@ pygame.display.set_caption("Juego Ninjas")
 
 pantalla = pygame.display.set_mode(RESOLUCION)
 
-mundo = Mundo()
-
-mapa = mundo.mapas["mundo"]
 
 #Icono de la ventana
 icono = pygame.image.load("res/Actor/Animals/Cat/Faceset.png").convert_alpha()
 pygame.display.set_icon(icono)
 
+# Objetos del juego
+mundo = Mundo()
+mapa = mundo.mapas["mundo"]
 personaje = Jugador(mapa)
-
+mundo.jugador = personaje
 mapa.entidades.append(personaje)
 camara = Camara(personaje)
 
+# Otros
 last_time = time.time()
-
 fps = debug.fps()
 
 while True:

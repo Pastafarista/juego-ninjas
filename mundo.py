@@ -2,6 +2,7 @@ from mapa import *
 
 class Mundo:
     def __init__(self):
+        self.jugador = None
         self.mapas = {}
         self.cargar_mapas(["mapas/mundo.json", "mapas/casa01.json", "mapas/casa02.json", "mapas/forja01.json"])
         
@@ -12,9 +13,6 @@ class Mundo:
             print("Cargado mapa: " + mapa.nombre)
     
     def actualizar(self, dt):
-        self.actualizar_mapas(dt)
-    
-    def actualizar_mapas(self, dt):
-        for mapa in self.mapas.values():
-            mapa.actualizar(dt)
+        if(self.jugador):
+            self.jugador.mapa.actualizar(dt)
     
