@@ -16,10 +16,25 @@ def debug(mensaje, x, y):
     display_surf.blit(texto, debug_rect)
     
     
-def mostar_fps(dt):
-    if(dt == 0):
-        fps = -1
-    else:
-        fps = 1 / dt
-    
-    debug("FPS: " + str(round(fps)), 10, 70)
+class fps():
+    def __init__(self):
+        self.fps_media = 0
+        self.fps = []
+        self.medicion = 5
+        
+    def actualizar(self, dt):        
+        fps_actual = 0
+        
+        if dt != 0:
+            fps_actual = int(1 / dt)
+            
+        if (len(self.fps) < self.medicion):
+            self.fps.append(fps_actual)
+        else:
+            if len(self.fps) > 0:
+                self.fps_media = sum(self.fps) / len(self.fps)
+                self.fps = []
+            
+    def mostar(self, dt):
+        self.actualizar(dt)
+        debug("FPS: " + str(int(self.fps_media)), 10, 150)

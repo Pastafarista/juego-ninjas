@@ -28,6 +28,8 @@ camara = Camara(personaje)
 
 last_time = time.time()
 
+fps = debug.fps()
+
 while True:
     
     # Carlcar el delta time
@@ -46,8 +48,9 @@ while True:
     camara.actualizar()
     camara.render(pantalla)
     
-    debug.mostar_fps(dt)
+    # Debuging
+    fps.mostar(dt)
     debug.debug("Posición: " + str(personaje.pos_x) + " " +  str(personaje.pos_y), 10, 200)
-    pygame.display.update()
     
+    pygame.display.update()
 
