@@ -11,10 +11,10 @@ class Mundo:
             self.mapas[mapa.nombre] = mapa
             print("Cargado mapa: " + mapa.nombre)
     
-    def actualizar(self):
-        self.actualizar_mapas()
+    def actualizar(self, dt):
+        self.actualizar_mapas(dt)
     
-    def actualizar_mapas(self):
+    def actualizar_mapas(self, dt):
         for mapa in self.mapas.values():
-            mapa.actualizar()
+            mapa.actualizar(dt)
     

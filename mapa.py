@@ -123,9 +123,9 @@ class Mapa:
             
         self.imagenes = hi.redimensionar_imagenes(self.imagenes, ESCALA_ZOOM)
         
-    def actualizar(self):
+    def actualizar(self, dt):
         for entidad in self.entidades:
-            entidad.actualizar()
+            entidad.actualizar(dt)
         
         for enemigo in self.enemigos:
-            enemigo.actualizar()
+            enemigo.actualizar(dt)

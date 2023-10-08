@@ -4,15 +4,13 @@ from ajustes import *
 from mundo import Mundo
 from jugador import Jugador
 from camara import Camara
-import herramientas_imagen as hi
+import time 
 import debug
 
 #Iniciar pygame
 pygame.init()
 pygame.display.set_caption("Juego Ninjas")
 
-#Crear pantalla y mundo
-reloj = pygame.time.Clock()
 pantalla = pygame.display.set_mode(RESOLUCION)
 
 mundo = Mundo()
@@ -28,7 +26,14 @@ personaje = Jugador(mapa)
 mapa.entidades.append(personaje)
 camara = Camara(personaje)
 
+last_time = time.time()
+
 while True:
+    
+    # Carlcar el delta time
+    dt = time.time() - last_time
+    last_time = time.time()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -37,12 +42,12 @@ while True:
     #Limpiar la pantalla
     pantalla.fill((0, 0, 0))       
     
-    mundo.actualizar()
-    
+    mundo.actualizar(dt)
     camara.actualizar()
     camara.render(pantalla)
     
-    debug.mostrar_posicion(personaje, pantalla)
+    debug.mostar_fps(dt)
 
     pygame.display.update()
-    reloj.tick(60)
+    
+

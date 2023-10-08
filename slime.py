@@ -5,7 +5,7 @@ import numpy as np
 
 class Slime(Entidad_con_sprite):
     def __init__(self, pos_x, pos_y, mapa):
-        super().__init__(pos_x=pos_x, pos_y=pos_y, offset_x=3, offset_y=4, tam_x=11, tam_y=9, velocidad=1, mapa=mapa)
+        super().__init__(pos_x=pos_x, pos_y=pos_y, offset_x=3, offset_y=4, tam_x=11, tam_y=9, velocidad=45, mapa=mapa)
 
         self.daño = 1
         self.direccion_actual = np.array([0, 0])
@@ -47,7 +47,7 @@ class Slime(Entidad_con_sprite):
             
             self.desplazarse(self.direccion_actual, randint(1, 3))
             
-    def actualizar(self):
-        super().actualizar()
+    def actualizar(self, dt):
+        super().actualizar(dt)
         self.inteligencia_artifical_slime()
         self.actualizar_estado()

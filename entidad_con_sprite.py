@@ -26,9 +26,9 @@ class Entidad_con_sprite(Entidad):
             self.nombre_animacion_actual = nombre
             self.animaciones[self.nombre_animacion_actual].reiniciar()
         
-    def actualizar(self):
-        super().actualizar()
-        self.animaciones[self.nombre_animacion_actual].siguiente_frame()
+    def actualizar(self, dt):
+        super().actualizar(dt)
+        self.animaciones[self.nombre_animacion_actual].siguiente_frame(dt)
         
     def obtener_frame_actual(self):
         return self.animaciones[self.nombre_animacion_actual].obtener_frame_actual()

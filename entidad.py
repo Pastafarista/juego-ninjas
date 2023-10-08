@@ -1,7 +1,7 @@
 import numpy as np 
 import pygame
 from timer import Timer
-
+import math
 class Entidad:
     def __init__(self, pos_x, pos_y, offset_x, offset_y, tam_x, tam_y, velocidad, mapa):
         self.posicion = np.array([pos_x, pos_y], dtype=float)
@@ -19,13 +19,13 @@ class Entidad:
         self.añadir_timer("desplazarse")
     
     #Moverse en la dirección actual en un frame
-    def moverse(self):  
+    def moverse(self, dt):  
         #Normalizar la dirección para que no vaya más rápido en diagonal
         if(self.direccion[0] != 0 and self.direccion[1] != 0):
             self.direccion = self.direccion / np.sqrt(np.sum(self.direccion**2))
             
-        dx = self.direccion[0] * self.velocidad
-        dy = self.direccion[1] * self.velocidad
+        dx = round(self.direccion[0] * self.velocidad * dt)
+        dy = round(self.direccion[1] * self.velocidad * dt)
         
         #Ver si el movimiento va a colisionar con alguna hitbox del mapa o con los límites del mapa
         
@@ -43,7 +43,7 @@ class Entidad:
             if hitbox_temporal.colliderect(hitbox) or hitbox_temporal.y < 0 or hitbox_temporal.y + hitbox_temporal.height > self.mapa.alto:
                 dy = 0
             
-        self.posicion += np.array([round(dx), round(dy)])
+        self.posicion += np.array([dx, dy])
         
         #Actualizar la caja de colisiones
         self.actualizar_hitbox()
@@ -68,6 +68,6 @@ class Entidad:
         self.caja_colision.x = self.posicion[0] + self.offset_x
         self.caja_colision.y = self.posicion[1] + self.offset_y
                 
-    def actualizar(self):
-        self.moverse()
+    def actualizar(self, dt):
+        self.moverse(dt)
         self.actualizar_timers()

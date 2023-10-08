@@ -41,8 +41,13 @@ class Camara():
             
         return imagenes_por_capas
     
-    def render_imagen(self, pantalla, imagen, posicion):
-        pantalla.blit(imagen, ( (posicion[0] - self.x) * ESCALA_ZOOM + self.offset_x, (posicion[1] - self.y) * ESCALA_ZOOM + self.offset_y) )
+    def render_imagen(self, pantalla, imagen, posicion):   
+        imagen_x = posicion[0]
+        imagen_y = posicion[1]
+        
+        #Si la imagen está fuera de la pantalla no se renderiza
+        if imagen_x < self.x or imagen_x > self.x_final or imagen_y < self.y or imagen_y > self.y_final:
+            pantalla.blit(imagen, ( (posicion[0] - self.x) * ESCALA_ZOOM + self.offset_x, (posicion[1] - self.y) * ESCALA_ZOOM + self.offset_y) )
         
     def render(self, pantalla):      
         imagenes = self.obtener_imagenes_por_capas()

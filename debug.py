@@ -5,18 +5,21 @@ from ajustes import *
 def mostar_hitbox(entidad, camara, pantalla):
     camara.render_imagen(pantalla, hi.redimensionar_imagen(pygame.Surface((entidad.caja_colision.width, entidad.caja_colision.height)), ESCALA_ZOOM), (entidad.caja_colision.x, entidad.caja_colision.y))
 
-def mostrar_posicion(entidad, pantalla):
+pygame.font.init()
+
+fuente = pygame.font.SysFont("Arial", 30)
+
+def render_texto(mensaje, x, y):
+    display_surf = pygame.display.get_surface()
+    texto = fuente.render(mensaje, True, (255, 255, 255))
+    debug_rect = texto.get_rect(topleft = (x, y))
+    display_surf.blit(texto, debug_rect)
     
-    fuente = pygame.font.SysFont("Arial", 40)
     
-    mensaje = "Pos: " + str(entidad.posicion)
+def mostar_fps(dt):
+    if(dt == 0):
+        fps = -1
+    else:
+        fps = 1 / dt
     
-    texto = fuente.render(mensaje, True, (255, 255, 255)).convert_alpha()
-    borde = fuente.render(mensaje, True, (0, 0, 0)).convert_alpha()
-    
-    pantalla.blit(borde, (10, 100 - 2))
-    pantalla.blit(borde, (10, 100 + 2))
-    pantalla.blit(borde, (10 - 2, 100))
-    pantalla.blit(borde, (10 + 2, 100))
-    
-    pantalla.blit(texto, (10, 100))
+    render_texto("FPS: " + str(round(fps)), 10, 70)
