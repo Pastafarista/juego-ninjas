@@ -1,6 +1,6 @@
 from entidad import Entidad
 from controles import Controles
-from timer import Timer
+from arma import Arma
 import numpy as np
 from sprite import Sprite
 
@@ -11,12 +11,15 @@ class Jugador(Entidad):
         self.vida = 12
         self.vida_maxima = 12
         self.sprite = Sprite()
+        self.arma = Arma(self)
         self.añadir_timer("cooldown_vida")
+        self.añadir_timer("cooldown_ataque")
         self.cargar_animaciones("BlueNinja")
           
     def cargar_animaciones(self, nombre_skin):
         self.sprite.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")
         self.sprite.agregar_animaciones(["idle_abajo", "idle_arriba", "idle_izquierda", "idle_derecha"], "res/Actor/Characters/" +  nombre_skin + "/SeparateAnim/Idle.png")
+        self.sprite.agregar_animaciones(["atacar_abajo", "atacar_arriba", "atacar_izquierda", "atacar_derecha"], "res/Actor/Characters/" +  nombre_skin + "/SeparateAnim/Attack.png")
         self.sprite.cambiar_animacion("idle_abajo")
             
     def comprobar_teleports(self):
@@ -62,31 +65,41 @@ class Jugador(Entidad):
         
         estado = self.sprite.nombre_animacion_actual
         
-        if self.controles.obtener_tecla("w"):
-            estado = "andar_arriba"
-            self.direccion[1] += -1
-            
-        if self.controles.obtener_tecla("a"):
-            estado = "andar_izquierda"
-            self.direccion[0] += -1
-            
-        if self.controles.obtener_tecla("s"):
-            estado = "andar_abajo"
-            self.direccion[1] += 1
-            
-        if self.controles.obtener_tecla("d"):
-            estado = "andar_derecha"
-            self.direccion[0] += 1
         
-        #Cambiar la animación a idle si no se está moviendo   
-        if self.direccion[0] == 0 and self.direccion[1] == 0:
-            estado = "idle_" + estado.split("_")[1]
+        if self.controles.obtener_tecla_con_cooldown("espacio") and self.timers["cooldown_ataque"].activado == False:
+            estado = "atacar_" + estado.split("_")[1]
+            self.timers["cooldown_ataque"].activar(0.1)
+            # Parar al personaje en seco
+            self.direccion[0] = 0
+            self.direccion[1] = 0
+        
+        if self.timers["cooldown_ataque"].activado == False: # Solo va a poder andar si no está atacando
+            if self.controles.obtener_tecla("w"):
+                estado = "andar_arriba"
+                self.direccion[1] += -1
+                
+            if self.controles.obtener_tecla("a"):
+                estado = "andar_izquierda"
+                self.direccion[0] += -1
+                
+            if self.controles.obtener_tecla("s"):
+                estado = "andar_abajo"
+                self.direccion[1] += 1
+                
+            if self.controles.obtener_tecla("d"):
+                estado = "andar_derecha"
+                self.direccion[0] += 1
+            
+            #Cambiar la animación a idle si no se está moviendo   
+            if self.direccion[0] == 0 and self.direccion[1] == 0:
+                estado = "idle_" + estado.split("_")[1]
         
         self.sprite.cambiar_animacion(estado)
         
     def actualizar(self, dt):
         super().actualizar(dt)
         self.sprite.actualizar(dt)
+        self.arma.actualizar(dt)
         self.comprobar_colisiones_enemigos()
         self.actualizar_estado()
         self.comprobar_teleports()

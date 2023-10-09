@@ -33,6 +33,7 @@ class Camara():
                 if imagen_x + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_x < LARGO_PANTALLA and imagen_y + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_y < ALTO_PANTALLA:
                     imagenes_por_capas[capa].append((self.jugador.mapa.imagenes[tile.tipo],(imagen_x, imagen_y)))
 
+        # Obtener las imagenes de las entidades del mapa donde está el jugador
         for entidad in self.jugador.mapa.entidades + self.jugador.mapa.enemigos:
             
             imagen_x = (entidad.pos_x - self.x) * ESCALA_ZOOM + self.offset_x
@@ -40,6 +41,11 @@ class Camara():
             
             if imagen_x + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_x < LARGO_PANTALLA and imagen_y + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_y < ALTO_PANTALLA:
                 imagenes_por_capas[entidad.sprite.capa].append((entidad.sprite.obtener_frame_actual(), (imagen_x, imagen_y)))
+         
+        # Obtener las imagenes de las armas del jugador   
+        imagen_x = (self.jugador.arma.pos_x - self.x) * ESCALA_ZOOM + self.offset_x
+        imagen_y = (self.jugador.arma.pos_y - self.y) * ESCALA_ZOOM + self.offset_y
+        imagenes_por_capas[self.jugador.arma.sprite.capa].append((self.jugador.arma.sprite.obtener_frame_actual(), (imagen_x, imagen_y)))
             
         #ordenar las capas en función de imagen_y para que se rendericen en el orden adecuado
         for capa in range(numero_capas):

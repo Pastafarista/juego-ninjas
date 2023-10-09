@@ -3,10 +3,10 @@ import pygame
 #Clase que gestiona los inputs del usuario
 class Controles:
     def __init__(self):
-        self.controles_cooldown = {"w":False,"a":False,"d":False,"s":False,"f":False,"r":False,"g":False}
+        self.controles_cooldown = {"w":False,"a":False,"d":False,"s":False,"f":False,"r":False,"g":False,"espacio":False}
         
         #Diccionario que relaciona todas las teclas con su tecla de pygame
-        self.nombre_controles = {"w":pygame.K_w,"a":pygame.K_a,"d":pygame.K_d,"s":pygame.K_s,"f":pygame.K_f,"r":pygame.K_r,"g":pygame.K_g}
+        self.nombre_controles = {"w":pygame.K_w,"a":pygame.K_a,"d":pygame.K_d,"s":pygame.K_s,"f":pygame.K_f,"r":pygame.K_r,"g":pygame.K_g, "espacio":pygame.K_SPACE}
         
     def obtener_tecla(self,tecla):
         key = pygame.key.get_pressed()

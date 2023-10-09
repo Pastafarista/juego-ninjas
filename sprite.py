@@ -25,6 +25,10 @@ class Sprite(Entidad):
             self.nombre_animacion_actual = nombre
             self.animaciones[self.nombre_animacion_actual].reiniciar()
         
+    def cambiar_animacion_sin_reiniciar(self, nombre):
+        if nombre != self.nombre_animacion_actual:
+            self.nombre_animacion_actual = nombre
+        
     def actualizar(self, dt):
         self.animaciones[self.nombre_animacion_actual].siguiente_frame(dt)
         
