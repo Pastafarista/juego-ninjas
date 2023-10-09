@@ -26,6 +26,8 @@ mundo.jugador = personaje
 mapa.entidades.append(personaje)
 camara = Camara(personaje)
 
+# Testeo
+
 # Otros
 last_time = time.time()
 fps = debug.fps()

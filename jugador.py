@@ -1,21 +1,23 @@
-from entidad_con_sprite import Entidad_con_sprite
+from entidad import Entidad
 from controles import Controles
 from timer import Timer
 import numpy as np
+from sprite import Sprite
 
-class Jugador(Entidad_con_sprite):
+class Jugador(Entidad):
     def __init__(self, mapa):
         super().__init__(pos_x=200, pos_y=200, offset_x=2, offset_y=3, tam_x=11, tam_y=11, velocidad=2 * 60, mapa=mapa)
         self.controles = Controles()
-        self.cargar_animaciones("BlueNinja")
         self.vida = 12
         self.vida_maxima = 12
+        self.sprite = Sprite()
         self.añadir_timer("cooldown_vida")
+        self.cargar_animaciones("BlueNinja")
           
     def cargar_animaciones(self, nombre_skin):
-        self.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")
-        self.agregar_animaciones(["idle_abajo", "idle_arriba", "idle_izquierda", "idle_derecha"], "res/Actor/Characters/" +  nombre_skin + "/SeparateAnim/Idle.png")
-        self.cambiar_animacion("idle_abajo")
+        self.sprite.agregar_animaciones(["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"],"res/Actor/Characters/" + nombre_skin + "/SeparateAnim/Walk.png")
+        self.sprite.agregar_animaciones(["idle_abajo", "idle_arriba", "idle_izquierda", "idle_derecha"], "res/Actor/Characters/" +  nombre_skin + "/SeparateAnim/Idle.png")
+        self.sprite.cambiar_animacion("idle_abajo")
             
     def comprobar_teleports(self):
         for teleport in self.mapa.objetos["teleport"]:
@@ -40,7 +42,7 @@ class Jugador(Entidad_con_sprite):
                     self.timers["cooldown_vida"].activar(1)
 
     def obtener_ultima_direccion(self):
-        texto_direccion = self.nombre_animacion_actual.split("_")[1]
+        texto_direccion = self.sprite.nombre_animacion_actual.split("_")[1]
         
         if texto_direccion == "abajo":
             return np.array([0, 1])
@@ -58,7 +60,7 @@ class Jugador(Entidad_con_sprite):
         
         self.direccion = np.array([0, 0])
         
-        estado = self.nombre_animacion_actual
+        estado = self.sprite.nombre_animacion_actual
         
         if self.controles.obtener_tecla("w"):
             estado = "andar_arriba"
@@ -80,10 +82,11 @@ class Jugador(Entidad_con_sprite):
         if self.direccion[0] == 0 and self.direccion[1] == 0:
             estado = "idle_" + estado.split("_")[1]
         
-        self.cambiar_animacion(estado)
+        self.sprite.cambiar_animacion(estado)
         
     def actualizar(self, dt):
         super().actualizar(dt)
+        self.sprite.actualizar(dt)
         self.comprobar_colisiones_enemigos()
         self.actualizar_estado()
         self.comprobar_teleports()

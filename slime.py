@@ -1,27 +1,29 @@
-from entidad_con_sprite import Entidad_con_sprite
+from entidad import Entidad
+from sprite import Sprite
 from timer import Timer
 from random import randint
 import numpy as np
 
-class Slime(Entidad_con_sprite):
+class Slime(Entidad):
     def __init__(self, pos_x, pos_y, mapa):
         super().__init__(pos_x=pos_x, pos_y=pos_y, offset_x=3, offset_y=4, tam_x=11, tam_y=9, velocidad=60, mapa=mapa)
 
         self.daño = 1
         self.direccion_actual = np.array([0, 0])
+        self.sprite = Sprite()
         self.cargar_animaciones()
         
     def cargar_animaciones(self):
         
         nombres_animaciones = ["andar_abajo", "andar_arriba", "andar_izquierda", "andar_derecha"]
         
-        self.agregar_animaciones(nombres_animaciones, "res/Actor/Monsters/Slime2.png")
+        self.sprite.agregar_animaciones(nombres_animaciones, "res/Actor/Monsters/Slime2.png")
         
-        self.cambiar_animacion("andar_abajo")
+        self.sprite.cambiar_animacion("andar_abajo")
             
     def actualizar_estado(self):      
         
-        estado = self.nombre_animacion_actual
+        estado = self.sprite.nombre_animacion_actual
         
         if self.direccion[0] > 0 and self.direccion[0] > self.direccion[1]:
             estado = "andar_derecha"
@@ -32,7 +34,7 @@ class Slime(Entidad_con_sprite):
         elif self.direccion[1] < 0 and self.direccion[1] < self.direccion[0]:
             estado = "andar_arriba"
             
-        self.cambiar_animacion(estado)
+        self.sprite.cambiar_animacion(estado)
         
     def inteligencia_artifical_slime(self):   
         #Cambiar la dirección actual cada 3-5 segundos
@@ -49,5 +51,6 @@ class Slime(Entidad_con_sprite):
             
     def actualizar(self, dt):
         super().actualizar(dt)
+        self.sprite.actualizar(dt)
         self.inteligencia_artifical_slime()
         self.actualizar_estado()

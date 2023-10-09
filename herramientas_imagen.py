@@ -64,3 +64,17 @@ def redimensionar_imagenes(imagenes, escala):
         imagenes_redimensionadas.append(redimensionar_imagen(imagen, escala))
         
     return imagenes_redimensionadas
+
+# Para las animaciones de las armas
+def generar_frames_animacion_rotacion(ruta_imagen, angulo_inicial, angulo_final, numero_frames):
+    
+    imagen = cargar_imagen(ruta_imagen)
+    
+    frames = []
+    
+    incremento_angulo = (angulo_final - angulo_inicial) / numero_frames
+    
+    for angulo in range(angulo_inicial, angulo_final, incremento_angulo):
+        frames.append(pygame.transform.rotate(imagen, angulo))
+        
+    return frames

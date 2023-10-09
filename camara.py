@@ -39,7 +39,7 @@ class Camara():
             imagen_y = (entidad.pos_y - self.y) * ESCALA_ZOOM + self.offset_y
             
             if imagen_x + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_x < LARGO_PANTALLA and imagen_y + TAM_TILE * ESCALA_ZOOM >= 0 and imagen_y < ALTO_PANTALLA:
-                imagenes_por_capas[entidad.capa].append((entidad.obtener_frame_actual(), (imagen_x, imagen_y)))
+                imagenes_por_capas[entidad.sprite.capa].append((entidad.sprite.obtener_frame_actual(), (imagen_x, imagen_y)))
             
         #ordenar las capas en función de imagen_y para que se rendericen en el orden adecuado
         for capa in range(numero_capas):
