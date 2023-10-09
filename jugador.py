@@ -12,6 +12,7 @@ class Jugador(Entidad):
         self.vida_maxima = 12
         self.sprite = Sprite()
         self.arma = Arma(self)
+        self.direccion_texto = "abajo"
         self.añadir_timer("cooldown_vida")
         self.añadir_timer("cooldown_ataque")
         self.cargar_animaciones("BlueNinja")
@@ -45,15 +46,13 @@ class Jugador(Entidad):
                     self.timers["cooldown_vida"].activar(1)
 
     def obtener_ultima_direccion(self):
-        texto_direccion = self.sprite.nombre_animacion_actual.split("_")[1]
-        
-        if texto_direccion == "abajo":
+        if self.direccion_texto == "abajo":
             return np.array([0, 1])
-        elif texto_direccion == "arriba":
+        elif self.direccion_texto == "arriba":
             return np.array([0, -1])
-        elif texto_direccion == "izquierda":
+        elif self.direccion_texto == "izquierda":
             return np.array([-1, 0])
-        elif texto_direccion == "derecha":
+        elif self.direccion_texto == "derecha":
             return np.array([1, 0])
 
     def actualizar_estado(self):    
@@ -63,11 +62,10 @@ class Jugador(Entidad):
         
         self.direccion = np.array([0, 0])
         
-        estado = self.sprite.nombre_animacion_actual
-        
+        estado = self.sprite.nombre_animacion_actual    
         
         if self.controles.obtener_tecla_con_cooldown("espacio") and self.timers["cooldown_ataque"].activado == False:
-            estado = "atacar_" + estado.split("_")[1]
+            estado = "atacar_" + self.direccion_texto
             self.timers["cooldown_ataque"].activar(0.1)
             # Parar al personaje en seco
             self.direccion[0] = 0
@@ -75,24 +73,26 @@ class Jugador(Entidad):
         
         if self.timers["cooldown_ataque"].activado == False: # Solo va a poder andar si no está atacando
             if self.controles.obtener_tecla("w"):
-                estado = "andar_arriba"
+                self.direccion_texto = "arriba"
                 self.direccion[1] += -1
                 
             if self.controles.obtener_tecla("a"):
-                estado = "andar_izquierda"
+                self.direccion_texto = "izquierda"
                 self.direccion[0] += -1
                 
             if self.controles.obtener_tecla("s"):
-                estado = "andar_abajo"
+                self.direccion_texto = "abajo"
                 self.direccion[1] += 1
                 
             if self.controles.obtener_tecla("d"):
-                estado = "andar_derecha"
+                self.direccion_texto = "derecha"
                 self.direccion[0] += 1
             
             #Cambiar la animación a idle si no se está moviendo   
             if self.direccion[0] == 0 and self.direccion[1] == 0:
-                estado = "idle_" + estado.split("_")[1]
+                estado = "atacar_" + self.direccion_texto
+            else:
+                estado = "andar_" + self.direccion_texto
         
         self.sprite.cambiar_animacion(estado)
         

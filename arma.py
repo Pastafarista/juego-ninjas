@@ -10,39 +10,35 @@ class Arma(Sprite):
         self.pos_y = jugador.pos_y
         self.sprite = Sprite()
         self.offsets = {
-            "derecha":(7, 11),
-            "izquierda":(-5, 11),
-            "arriba":(10, -5),
-            "abajo":(0, 14)
+            "derecha":(16, 9),
+            "izquierda":(-10, 9),
+            "arriba":(2, -10),
+            "abajo":(3, 16)
         }
         self.cargar_animaciones()
         
     def cargar_animaciones(self):
         
-        ruta = "res/Items/Weapons/Katana/Sprite.png"
+        ruta = "res/Items/Weapons/Katana/SpriteInHand.png"
         
         dict = {
-            "derecha":270,
-            "izquierda":90,
-            "arriba":0,
-            "abajo":180
+            "derecha":90,
+            "izquierda":270,
+            "arriba":180,
+            "abajo":0
         }
-        
-        for direccion, rotacion in dict.items():
-            self.sprite.agregar_animacion("idle_" + direccion, Animacion( [hi.redimensionar_imagen(hi.rotar_imagen(hi.cargar_imagen(ruta), rotacion), ESCALA_ZOOM)] ) )
-                   
+
+        self.sprite.agregar_animacion("idle_derecha", Animacion( [hi.redimensionar_imagen(hi.rotar_imagen( hi.flip_imagen( hi.cargar_imagen(ruta), flip_x=False, flip_y=False ), dict["derecha"]), ESCALA_ZOOM)] ) )
+        self.sprite.agregar_animacion("idle_arriba", Animacion( [hi.redimensionar_imagen(hi.rotar_imagen( hi.flip_imagen( hi.cargar_imagen(ruta), flip_x=False, flip_y=False ), dict["arriba"]), ESCALA_ZOOM)] ) )       
+        self.sprite.agregar_animacion("idle_izquierda", Animacion( [hi.redimensionar_imagen(hi.rotar_imagen( hi.flip_imagen( hi.cargar_imagen(ruta), flip_x=True, flip_y=False ), dict["izquierda"]), ESCALA_ZOOM)] ) )
+        self.sprite.agregar_animacion("idle_abajo", Animacion( [hi.redimensionar_imagen(hi.rotar_imagen( hi.flip_imagen( hi.cargar_imagen(ruta), flip_x=False, flip_y=False ), dict["abajo"]), ESCALA_ZOOM)] ) )
+
         self.sprite.cambiar_animacion("idle_abajo")
         
     def actualizar_estado(self):
         direccion = self.jugador.sprite.nombre_animacion_actual.split("_")[-1]
         estado = "idle"
         self.sprite.cambiar_animacion(estado + "_" + direccion)
-        
-        # Hay que cambiar la capa para que visualmente se vea bien
-        if(direccion != "arriba"):
-            self.sprite.capa = self.jugador.sprite.capa
-        else:
-            self.sprite.capa = self.jugador.sprite.capa - 1
         
     def actualizar(self, dt):
         self.actualizar_estado()
