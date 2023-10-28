@@ -1,4 +1,4 @@
-# juego-ninjas
+# Juego Ninjas
 
 Juego de ninjas hecho en python utilizando pygame <br>
 
